@@ -1,0 +1,18 @@
+{
+  "build": {
+    "cpu": "vega-et1031",
+    "extra_flags": "-DMACHINE_THEJAS32 -DTHEJAS32",
+    "f_cpu": "100000000L",
+    "mcu": "thejas32",
+    "variant": "aries_v3"
+  },
+  "frameworks": [],
+  "name": "C-DAC Aries V3 (THEJAS32)",
+  "upload": {
+    "maximum_ram_size": 262144,
+    "maximum_size": 2097152,
+    "speed": 115200
+  },
+  "url": "https://vegaprocessors.in/devboard.php",
+  "vendor": "C-DAC"
+}
