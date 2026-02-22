@@ -7,7 +7,8 @@ This project provides a clean, baremetal development environment for the **C-DAC
 This project includes a working example of the `ssd1306` I2C OLED display driver, ported correctly to compile with PlatformIO.
 
 ---
-
+If want to use Aries V3.0 Dev board with [Tauras SDK](https://github.com/rnayabed/taurus.git), check out my automation using Tauras SDK Repository [here](https://github.com/nishit0072e/Vega-Firmware-Build-Upload-Automation.git).
+---
 ## 🚀 Prerequisites
 
 Before you begin, ensure you have the following installed on your Windows system:
@@ -103,4 +104,5 @@ aries_pio_project/
 *   **I2C Initialization**: Check `main.c` for proper I2C initialization (`i2c_configure()`) which is strictly required for peripherals like displays.
 
 ---
+
 
