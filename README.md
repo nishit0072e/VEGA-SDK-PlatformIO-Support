@@ -1,3 +1,5 @@
+![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1sa7FqqlQVvSHvxl-rlpHxIXu3ZU8VghDlw&s)
+![board](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz9e8oIw5dMQcbu74iiV59oWjToqgbEA2E1Q&s)
 # CDAC Aries V3 (THEJAS32) - PlatformIO Baremetal Project
 
 This project provides a clean, baremetal development environment for the **C-DAC Aries V3 (VEGA ET1031 / THEJAS32)** RISC-V development board using **PlatformIO**. It allows you to build and upload code to the Aries V3 board without relying on Eclipse or complex Makefiles, integrating seamlessly with VS Code.
@@ -101,3 +103,4 @@ aries_pio_project/
 *   **I2C Initialization**: Check `main.c` for proper I2C initialization (`i2c_configure()`) which is strictly required for peripherals like displays.
 
 ---
+
