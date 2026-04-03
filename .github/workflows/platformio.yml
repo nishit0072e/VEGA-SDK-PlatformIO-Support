@@ -9,18 +9,18 @@ on:
 
 jobs:
   build:
-    # 1. Match our DevContainer environment perfectly
     runs-on: ubuntu-22.04 
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # 2. NEW: Install the underlying C-libraries the compiler needs to run
+    # 1. FIX THE ARCHITECTURE TRAP: Deep install of 32-bit Linux execution layers
     - name: Install System Dependencies
       run: |
+        sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y libncurses5 libtinfo5 libusb-1.0-0-dev libc6-i386
+        sudo apt-get install -y libc6:i386 libstdc++6:i386 libncurses5:i386 libtinfo5 zlib1g:i386 wget unzip tar
 
     - name: Prepare /opt/vega
       run: |
@@ -42,8 +42,32 @@ jobs:
         chmod +x setup-env.sh
         ./setup-env.sh
         
-        # Add the toolchain bin to the GitHub runner's system path
         echo "/opt/vega/vega-tools-rv32/toolchain/bin" >> $GITHUB_PATH
+
+    # 2. FIX THE FOLDER & NAMING TRAPS (Plus Diagnostics)
+    - name: Fix Toolchain Paths and Names
+      run: |
+        # If the script extracted to 'bin' instead of 'toolchain/bin', trick PlatformIO by linking them
+        if [ ! -d "/opt/vega/vega-tools-rv32/toolchain/bin" ] && [ -d "/opt/vega/vega-tools-rv32/bin" ]; then
+          mkdir -p /opt/vega/vega-tools-rv32/toolchain
+          ln -s /opt/vega/vega-tools-rv32/bin /opt/vega/vega-tools-rv32/toolchain/bin
+        fi
+
+        cd /opt/vega/vega-tools-rv32/toolchain/bin || echo "Bin folder still missing!"
+        
+        # If the Linux compiler is named riscv32 instead of riscv64, create symlinks so your Python script works
+        if [ -f "riscv32-vega-elf-gcc" ] && [ ! -f "riscv64-vega-elf-gcc" ]; then
+            echo "Renaming 32-bit binaries to match Python script..."
+            for f in riscv32-*; do ln -s "$f" "${f/riscv32/riscv64}"; done
+        fi
+        
+        # --- DIAGNOSTICS ---
+        echo "=== FOLDER CONTENTS ==="
+        ls -la
+        echo "=== COMPILER CHECK ==="
+        file riscv64-vega-elf-gcc || true
+        ldd riscv64-vega-elf-gcc || true
+        ./riscv64-vega-elf-gcc --version || echo "Compiler failed to execute!"
 
     - name: Setup Python
       uses: actions/setup-python@v5
