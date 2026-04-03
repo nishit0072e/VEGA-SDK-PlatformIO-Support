@@ -52,4 +52,4 @@ jobs:
 
     # 6. Run the build command for a specific example project
     - name: Build Project
-      run: pio run -d examples/projects/iot-demo_bmp180
+      run: pio run
