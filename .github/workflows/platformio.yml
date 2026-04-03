@@ -1,0 +1,55 @@
+name: Vega PlatformIO CI
+
+# When should this workflow run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Gives you the manual "Run workflow" button in GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+
+    steps:
+    # 1. Grab your main GitHub code
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2. Pull the official Vega SDK, switch to 'aries' branch, and run setup
+    - name: Setup Vega SDK
+      run: |
+        git clone https://gitlab.com/riscv-vega/community/vega-sdk.git vega-sdk
+        cd vega-sdk
+        git checkout aries
+        chmod +x setup.sh
+        ./setup.sh
+
+    # 3. Pull the Vega RV32 Toolchain, run setup, and persist it to PATH
+    - name: Setup Vega Toolchain
+      run: |
+        git clone https://gitlab.com/riscv-vega/community/vega-tools-rv32.git vega-tools-rv32
+        cd vega-tools-rv32
+        chmod +x setup-env.sh
+        
+        # Run the official setup script
+        ./setup-env.sh
+        
+        # CRITICAL FIX: Persist the toolchain 'bin' directory to the GitHub Actions PATH
+        # so PlatformIO can find the compiler binaries in the later steps.
+        echo "$(pwd)/bin" >> $GITHUB_PATH
+
+    # 4. PlatformIO requires Python
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    # 5. Install PlatformIO
+    - name: Install PlatformIO
+      run: pip install --upgrade platformio
+
+    # 6. Run the build command for a specific example project
+    - name: Build Project
+      run: pio run -d examples/projects/iot-demo_bmp180
