@@ -10,7 +10,7 @@ Falls back to 'firmware' if no main() is detected.
 """
 
 Import("env")
-
+import sys
 import re
 import subprocess
 from pathlib import Path
@@ -36,10 +36,13 @@ def get_required_path(option_name):
 SDK_PATH  = get_required_path("vega_sdk_path")
 TOOLS_BIN = get_required_path("vega_tools_path")
 
+# Determine the executable extension based on the Operating System
+EXE_EXT = ".exe" if sys.platform == "win32" else ""
+
 # Toolchain binaries
-GCC     = str(TOOLS_BIN / "riscv64-vega-elf-gcc.exe").replace("\\", "/")
-AR      = str(TOOLS_BIN / "riscv64-vega-elf-ar.exe").replace("\\", "/")
-OBJCOPY = str(TOOLS_BIN / "riscv64-vega-elf-objcopy.exe").replace("\\", "/")
+GCC     = str(TOOLS_BIN / f"riscv64-vega-elf-gcc{EXE_EXT}").replace("\\", "/")
+AR      = str(TOOLS_BIN / f"riscv64-vega-elf-ar{EXE_EXT}").replace("\\", "/")
+OBJCOPY = str(TOOLS_BIN / f"riscv64-vega-elf-objcopy{EXE_EXT}").replace("\\", "/")
 
 # SDK layout
 BSP_DIR    = SDK_PATH / "bsp"
