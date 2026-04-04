@@ -25,6 +25,8 @@ Before you begin, ensure you have the following installed on your Windows system
 cd vega-sdk
 git checkout aries
 ```
+*(Must: !! after running ```git checkout aries``` place the ```libvega.a``` file in the directory ```/vega-sdk/bsp/```)*
+
 !! Do this steps if you forking from [Gitlab Repository](https://gitlab.com/riscv-vega/community/vega-sdk.git), otherwise only run the commands inside **`vega-sdk`** directory and you are good to go.
 ---
 
