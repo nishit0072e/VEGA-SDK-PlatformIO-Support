@@ -15,8 +15,17 @@ Before you begin, ensure you have the following installed on your Windows system
 
 1.  **[VS Code](https://code.visualstudio.com/)**
 2.  **[PlatformIO IDE Extension](https://platformio.org/install/ide?install=vscode)** (Install within VS Code)
-3.  **[VEGA SDK](https://gitlab.com/cdac-vega/vega-sdk), [Toolchain for Windows](https://gitlab.com/riscv-vega) and [Upload Tools](https://gitlab.com/riscv-vega)** 
+3.  **[VEGA SDK](https://gitlab.com/cdac-vega/vega-sdk), [Toolchain for Windows](https://gitlab.com/riscv-vega) and [Upload Tools](https://gitlab.com/riscv-vega)**
 
+*(Important Note: After downloading the *`VEGA-SDK`* copy it in a different location as we need it *`twice`*, for SDK access & again for PlatformIO Support files. In a copy of *`VEGA-SDK`* branch should be switched to *`aries`* from *`master`* branch and set the path in the *`platformio.ini`* file)*
+<font color="red"></font>
+---
+- After Downloading **VEGA-SDK** run this commands in the terminal *( git should be preinstalled in PC )*:
+```
+cd vega-sdk
+git checkout aries
+```
+!! Do this steps if you forking from [Gitlab Repository](https://gitlab.com/riscv-vega/community/vega-sdk.git), otherwise only run the commands inside **`vega-sdk`** directory and you are good to go.
 ---
 
 ## 🛠️ Environment Setup
